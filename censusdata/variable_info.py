@@ -25,10 +25,10 @@ def censusvar(src, year, var):
 
 		censusdata.censusvar('sf1', 2010, ['P001001']) # Returns information on the variable P0010001 from the 2010 Census SF1.
 	"""
-	assert src == 'acs1' or src == 'acs3' or src == 'acs5' or src == 'acsse' or src == 'sf1'
+	assert src == 'acs1' or src == 'acs3' or src == 'acs5' or src == 'acsse' or src == 'sf1' or src == 'pl'
 	ret = dict()
 	for v in var:
-		if src == 'acsse' or src == 'sf1' or v[0] == 'B':
+		if src == 'acsse' or src == 'sf1' or src == 'pl' or v[0] == 'B':
 			tabletype = ''
 		elif v[0] == 'S':
 			tabletype = 'subject/'
@@ -42,7 +42,7 @@ def censusvar(src, year, var):
 			raise ValueError(u'Unknown table type for variable {0}!'.format(v))
 		if (src == 'acs1' or src == 'acs5' or src == 'acsse') and year >= 2010: presrc = 'acs/'
 		elif src == 'acs3': presrc = 'acs/'
-		elif src == 'sf1': presrc = 'dec/'
+		elif (src == 'sf1' or src == 'pl'): presrc = 'dec/'
 		else: presrc = ''
 		r = requests.get('https://api.census.gov/data/{year}/{presrc}{src}/{tabletype}variables/{v}.json'.format(src=src, year=year, v=v, tabletype=tabletype, presrc=presrc))
 		try:
@@ -81,8 +81,8 @@ def censustable(src, year, table):
 
 		censusdata.censustable('acs1', 2015, 'B23025') # Returns information on table B23025 (Employment Status for Population 16+ Years) from the ACS 2015 1-year estimates.
 	"""
-	assert src == 'acs1' or src == 'acs3' or src == 'acs5' or src == 'acsse' or src == 'sf1'
-	if src == 'acsse' or src == 'sf1':
+	assert src == 'acs1' or src == 'acs3' or src == 'acs5' or src == 'acsse' or src == 'sf1' or src == 'pl'
+	if src == 'acsse' or src == 'sf1' or src == 'pl':
 		tabletype = ''
 	elif table[0] == 'B':
 		tabletype = 'detail_'

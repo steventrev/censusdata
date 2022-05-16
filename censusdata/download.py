@@ -29,6 +29,8 @@ def _download(src, year, params, baseurl = 'https://api.census.gov/data/', endpt
 	elif src[:3] == 'sf1':
 		if endpt == 'new' or endpt == '': presrc = 'dec/'
 		if endpt == 'old': presrc = ''
+	elif src[:2] == 'pl':
+		presrc = 'dec/'
 	else: presrc = ''
 	url = baseurl + str(year) + '/' + presrc + src + '?' + '&'.join('='.join(param) for param in params.items())
 	r = requests.get(url)
